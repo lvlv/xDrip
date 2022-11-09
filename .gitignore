@@ -26,6 +26,7 @@ app/src/test/java/com/eveningoutpost/dexdrip/spike/
 .gradle/
 build/
 app/release
+app/prod
 localeapi/gradle/
 localeapi/lint.xml
 

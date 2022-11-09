@@ -340,7 +340,7 @@ public enum DexCollectionType {
 
     public static long getCurrentDeduplicationPeriod() {
         final long period = getDexCollectionType().getSamplePeriod();
-        return period - (period / 6); // TODO this needs more validation
+        return period - (period / 4); // TODO this needs more validation
     }
 
     public static int getCurrentSamplesForPeriod(final long periodMs) {

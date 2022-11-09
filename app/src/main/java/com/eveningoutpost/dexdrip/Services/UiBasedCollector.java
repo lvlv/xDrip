@@ -40,6 +40,8 @@ import com.eveningoutpost.dexdrip.xdrip;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import lombok.val;
 
@@ -72,6 +74,7 @@ public class UiBasedCollector extends NotificationListenerService {
         coOptedPackages.add("com.camdiab.fx_alert.hx.mmoll");
         coOptedPackages.add("com.camdiab.fx_alert.hx.mgdl");
         coOptedPackages.add("com.medtronic.diabetes.guardian");
+        coOptedPackages.add("cn.cgmcare.app");
     }
 
     @Override
@@ -124,6 +127,14 @@ public class UiBasedCollector extends NotificationListenerService {
     String filterString(final String value) {
         if (lastPackage == null) return value;
         switch (lastPackage) {
+            case "cn.cgmcare.app":
+                Pattern p = Pattern.compile("数值[^0-9]*([0-9]+\\.[0-9])");
+                Matcher m = p.matcher(value);
+                if (!m.find()) {
+                    UserError.Log.d(TAG, "Can't extract value from: " + value);
+                    return "";
+                }
+                return m.group(1);
             default:
                 return value
                         .replace("mmol/L", "")
@@ -132,6 +143,41 @@ public class UiBasedCollector extends NotificationListenerService {
                         .replace("≥", "")
                         .trim();
         }
+    }
+
+    String filterTime(final String value) {
+        if (lastPackage == null) return value;
+        switch (lastPackage) {
+            case "cn.cgmcare.app":
+                Pattern p = Pattern.compile("时间[^0-9]*([0-9][0-9]\\:[0-9][0-9])");
+                Matcher m = p.matcher(value);
+                if (!m.find()) {
+                    UserError.Log.d(TAG, "Can't extract time from: " + value);
+                    return "";
+                }
+                return m.group(1);
+            default:
+                return "";
+        }
+    }
+
+    long parseTimestamp(final String value) {
+        long now = JoH.tsl();
+        Pattern p = Pattern.compile("([0-9][0-9])\\:([0-9][0-9])");
+        Matcher m = p.matcher(value);
+        if (!m.find()) {
+            UserError.Log.d(TAG, "Can't parse time from: " + value);
+            return 0;
+        }
+        long t = (now + 8 * 3600000L) / 86400000L * 86400000L +
+                JoH.tolerantParseLong(m.group(1), 0) * 3600000L +
+                JoH.tolerantParseLong(m.group(2), 0) * 60000L -
+                8 * 3600000L;
+        if (t > now) {
+            t -= 86400000L;
+        }
+        UserError.Log.d(TAG, "Parsed time: " + t + " now: " + now);
+        return t;
     }
 
     @SuppressWarnings("UnnecessaryLocalVariable")
@@ -144,6 +190,7 @@ public class UiBasedCollector extends NotificationListenerService {
         UserError.Log.d(TAG, "Text views: " + texts.size());
         int matches = 0;
         int mgdl = 0;
+        long timestamp = 0;
         for (val view : texts) {
             try {
                 val tv = (TextView) view;
@@ -167,6 +214,11 @@ public class UiBasedCollector extends NotificationListenerService {
                         }
                     }
                 }
+                String fTime = filterTime(text);
+                long ts = parseTimestamp(fTime);
+                if (ts > 0) {
+                    timestamp = ts;
+                }
             } catch (Exception e) {
                 //
             }
@@ -177,8 +229,12 @@ public class UiBasedCollector extends NotificationListenerService {
             UserError.Log.e(TAG, "Found too many matches: " + matches);
         } else {
             Sensor.createDefaultIfMissing();
-            val timestamp = JoH.tsl();
-            UserError.Log.d(TAG, "Found specific value: " + mgdl);
+            // Add timestamp if missing
+            if (timestamp == 0) {
+                UserError.Log.d(TAG, "Did not find any time matches, fallback to current time.");
+                timestamp = JoH.tsl();
+            }
+            UserError.Log.i(TAG, "Found specific value: " + mgdl + " time: " + timestamp);
 
             if ((mgdl >= 40 && mgdl <= 405)) {
                 val grace = DexCollectionType.getCurrentSamplePeriod() * 4;
@@ -198,7 +254,7 @@ public class UiBasedCollector extends NotificationListenerService {
                         }
                     }
                 } else {
-                    UserError.Log.d(TAG, "Duplicate value");
+                    UserError.Log.i(TAG, "Duplicate value");
                 }
             } else {
                 UserError.Log.wtf(TAG, "Glucose value outside acceptable range: " + mgdl);
