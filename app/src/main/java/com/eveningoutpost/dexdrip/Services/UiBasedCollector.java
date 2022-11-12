@@ -78,6 +78,16 @@ public class UiBasedCollector extends NotificationListenerService {
     }
 
     @Override
+    public void onListenerConnected() {
+        super.onListenerConnected();
+        StatusBarNotification[] activeNotifications = getActiveNotifications();
+        UserError.Log.d(TAG, "Current active notifications: " + activeNotifications.length);
+        for (int i = 0; i < activeNotifications.length; ++i) {
+            onNotificationPosted(activeNotifications[i]);
+        }
+    }
+
+    @Override
     public void onNotificationPosted(final StatusBarNotification sbn) {
         val fromPackage = sbn.getPackageName();
         if (coOptedPackages.contains(fromPackage)) {
