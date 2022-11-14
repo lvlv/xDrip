@@ -138,7 +138,7 @@ public class UiBasedCollector extends NotificationListenerService {
         if (lastPackage == null) return value;
         switch (lastPackage) {
             case "cn.cgmcare.app":
-                Pattern p = Pattern.compile("数值[^0-9]*([0-9]+\\.[0-9])");
+                Pattern p = Pattern.compile("值[^0-9]*([0-9]+\\.[0-9])");
                 Matcher m = p.matcher(value);
                 if (!m.find()) {
                     UserError.Log.d(TAG, "Can't extract value from: " + value);
