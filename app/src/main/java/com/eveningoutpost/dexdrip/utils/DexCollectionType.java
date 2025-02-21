@@ -54,6 +54,7 @@ public enum DexCollectionType {
     Mock("Mock"),
     Manual("Manual"),
     LibreReceiver("LibreReceiver"),
+    OTReceiver("OTReceiver"),
     AidexReceiver("AidexReceiver");
 
     @Getter
@@ -89,7 +90,7 @@ public enum DexCollectionType {
         Collections.addAll(usesXbridge, DexbridgeWixel, WifiDexBridgeWixel);
         Collections.addAll(usesFiltered, DexbridgeWixel, WifiDexBridgeWixel, DexcomG5, WifiWixel, Follower, Mock); // Bluetooth and Wifi+Bluetooth need dynamic mode
         Collections.addAll(usesLibre, LimiTTer, LibreAlarm, LimiTTerWifi, LibreWifi, LibreReceiver);
-        Collections.addAll(isPassive, NSEmulator, NSFollow, SHFollow, WebFollow, LibreReceiver, UiBased, CLFollow, AidexReceiver);
+        Collections.addAll(isPassive, NSEmulator, NSFollow, SHFollow, WebFollow, LibreReceiver, UiBased, CLFollow, OTReceiver, AidexReceiver);
         Collections.addAll(canNotStartStopOrCal, NSFollow, SHFollow, WebFollow, UiBased, CLFollow, Disabled); // Collectors that cannot start/stop sensor or submit calibration
         Collections.addAll(usesBattery, BluetoothWixel, DexbridgeWixel, WifiBlueToothWixel, WifiDexBridgeWixel, Follower, LimiTTer, LibreAlarm, LimiTTerWifi, LibreWifi); // parakeet separate
         Collections.addAll(usesDexcomRaw, BluetoothWixel, DexbridgeWixel, WifiWixel, WifiBlueToothWixel, DexcomG5, WifiDexBridgeWixel, Mock);
@@ -272,6 +273,7 @@ public enum DexCollectionType {
         final DexCollectionType dct = getDexCollectionType();
         switch (dct) {
             case NSEmulator:
+            case OTReceiver:
             case AidexReceiver:
             case LibreReceiver:
                 return "Other App";

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="local_target_package" translatable="false">cn.diyaps.xdrip</string>
+    <string name="app_name" translatable="false">xDrip++</string>
+    <string name="app_name_launcher" translatable="false">xDrip++</string>
+</resources>

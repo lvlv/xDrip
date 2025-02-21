@@ -19,6 +19,8 @@ bin/
 gen/
 scripts/
 app/defunct
+app/prod
+app/diyaps
 app/src/main/java/com/eveningoutpost/dexdrip/spike/
 app/src/test/java/com/eveningoutpost/dexdrip/spike/
 

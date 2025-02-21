@@ -96,8 +96,6 @@
         android:largeHeap="true"
         android:maxAspectRatio="2.1"
         android:theme="@style/AppTheme"
-        tools:replace="android:appComponentFactory"
-        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true">
         <activity
@@ -595,6 +593,11 @@
                 <action android:name="com.microtechmd.cgms.aidex.action.SensorRestart" />
                 <action android:name="com.microtechmd.cgms.aidex.action.SensorStop" />
                 <action android:name="com.microtechmd.cgms.aidex.action.Notification" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.OTReceiver">
+            <intent-filter>
+                <action android:name="com.eveningoutpost.dexdrip.OT_APP" />
             </intent-filter>
         </receiver>
         <receiver android:name=".watch.thinjam.io.ThinJamApiReceiver">

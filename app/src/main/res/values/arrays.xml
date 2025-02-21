@@ -20,6 +20,7 @@
         <item>Web Follower</item>
         <item>Companion App</item>
         <item>GlucoRx/Aidex App</item>
+        <item>OT App</item>
         <item>CareLink Follower</item>
         <item>@string/disable_collection</item>
     </string-array>
@@ -44,6 +45,7 @@
         <item>WebFollower</item>
         <item>UiBased</item>
         <item>AidexReceiver</item>
+        <item>OTReceiver</item>
         <item>CLFollower</item>
         <item>Disabled</item>
     </string-array>
