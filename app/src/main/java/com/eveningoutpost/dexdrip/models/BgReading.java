@@ -23,6 +23,7 @@ import com.activeandroid.util.SQLiteUtils;
 import com.eveningoutpost.dexdrip.BestGlucose;
 import com.eveningoutpost.dexdrip.GcmActivity;
 import com.eveningoutpost.dexdrip.Home;
+import com.eveningoutpost.dexdrip.calibrations.PluggableCalibration;
 import com.eveningoutpost.dexdrip.importedlibraries.dexcom.records.EGVRecord;
 import com.eveningoutpost.dexdrip.importedlibraries.dexcom.records.SensorRecord;
 import com.eveningoutpost.dexdrip.models.UserError.Log;
@@ -1194,6 +1195,52 @@ public class BgReading extends Model implements ShareUploadableBg {
             return existing;
         }
     }
+
+    public static synchronized BgReading bgReadingInsertOT(double bgvMgDl, long timestamp) {
+
+        final BgReading existing = getForPreciseTimestamp(timestamp, DexCollectionType.getCurrentDeduplicationPeriod());
+        if (existing != null) {
+            return existing;
+        }
+
+        final BgReading bgReading = new BgReading();
+        bgReading.raw_data = bgvMgDl;
+        bgReading.age_adjusted_raw_value = bgvMgDl;
+        bgReading.filtered_data = bgvMgDl;
+        bgReading.timestamp = timestamp;
+        bgReading.uuid = UUID.randomUUID().toString();
+        bgReading.hide_slope = false;
+        bgReading.appendSourceInfo("OT");
+
+        final Sensor forced_sensor = Sensor.currentSensor();
+        if (forced_sensor != null) {
+            bgReading.sensor = forced_sensor;
+            bgReading.sensor_uuid = forced_sensor.uuid;
+        }
+
+        CalibrationAbstract calibration = PluggableCalibration.getCalibrationPluginFromPreferences();
+        if (calibration == null) {
+            Log.d(TAG, "create: No calibration yet");
+            bgReading.calculated_value = bgvMgDl;
+            bgReading.calculated_value_slope = 0;
+        } else {
+            Log.d(TAG, "Calibrations, so doing everything bgReading = " + bgReading);
+            double calibrated_bgv = calibration.getGlucoseFromSensorValue(bgvMgDl);
+            bgReading.calculated_value = calibrated_bgv > 0 ? calibrated_bgv : bgvMgDl;
+            double filtered_calibrated_bgv = calibration.getGlucoseFromSensorValue(bgReading.ageAdjustedFiltered());
+            bgReading.filtered_calculated_value =
+                    filtered_calibrated_bgv > 0 ? filtered_calibrated_bgv : bgReading.ageAdjustedFiltered();
+            bgReading.calculated_value_slope = 0;
+            BgReading.updateCalculatedValueToWithinMinMax(bgReading);
+        }
+        bgReading.find_slope();
+        bgReading.save();
+        bgReading.perform_calculations();
+        bgReading.postProcess(false);
+
+        return bgReading;
+    }
+
     public static synchronized BgReading bgReadingInsertLibre2(double calculated_value, long timestamp, double raw_data) {
 
         final Sensor sensor = Sensor.currentSensor();

@@ -1,5 +1,8 @@
 package com.eveningoutpost.dexdrip.calibrations;
 
+import com.eveningoutpost.dexdrip.utilitymodels.Constants;
+import com.eveningoutpost.dexdrip.utilitymodels.Pref;
+
 /**
  * Created by jamorham on 04/10/2016.
  * <p>
@@ -24,6 +27,8 @@ public class FixedSlopeExample extends CalibrationAbstract {
 
     @Override
     public CalibrationData getCalibrationData(long until) {
-        return new CalibrationData(1.08d, -5.0d);
+        double slope = Pref.getStringToDouble("calibration_fixed_slope", 1);
+        double intercept = Pref.getStringToDouble("calibration_fixed_intercept_mmol", 0);
+        return new CalibrationData(slope, intercept * Constants.MMOLL_TO_MGDL);
     }
 }

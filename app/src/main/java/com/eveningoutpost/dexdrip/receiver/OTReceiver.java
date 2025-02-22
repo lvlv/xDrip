@@ -101,20 +101,11 @@ public class OTReceiver extends BroadcastReceiver {
                 Long ts = jsonEntry.getLong("date");
                 double bgValueMgDl = jsonEntry.getDouble("sgv");
                 UserError.Log.d(TAG, "parsed date: " + ts + " sgv: " + bgValueMgDl);
-                BgReading.bgReadingInsertFromInt(
-                        calibrateBgv(bgValueMgDl), ts, segmentation_timeslice,
-                        i == jsonData.length() - 1);
+                BgReading.bgReadingInsertOT(bgValueMgDl, ts);
             }
         } catch (JSONException e) {
             UserError.Log.e(TAG, e.toString());
         }
-    }
-
-    private int calibrateBgv(double sgvMgdl) {
-        if (sgvMgdl < 1.9 * Constants.MMOLL_TO_MGDL) {
-            return (int) (1 * Constants.MMOLL_TO_MGDL);
-        }
-        return (int) (sgvMgdl - 0.9 * Constants.MMOLL_TO_MGDL);
     }
 
 }
