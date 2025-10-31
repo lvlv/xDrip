@@ -92,7 +92,7 @@ android {
         minSdkVersion 24
         // increasing target SDK version can cause compatibility issues with Android 7+
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 24
+        targetSdkVersion 34
         // change versionCode only when downgrade should be prevented
         // eg, when data structures are incompatible
         versionCode 1603091400

@@ -158,6 +158,7 @@
 
         <activity
             android:name=".Home"
+            android:exported="true"
             android:label="@string/app_name_launcher"
             android:launchMode="singleTask">
             <intent-filter>
@@ -274,18 +275,24 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/note_search" />
 
-        <receiver android:name=".AutoStart">
+        <receiver
+            android:name=".AutoStart"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utils.PowerStateReceiver">
+        <receiver
+            android:name=".utils.PowerStateReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utils.HeadsetStateReceiver">
+        <receiver
+            android:name=".utils.HeadsetStateReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.headset.profile.action.CONNECTION_STATE_CHANGED" />
                 <action android:name="android.bluetooth.headset.profile.action.AUDIO_STATE_CHANGED" />
@@ -298,19 +305,24 @@
                 <action android:name="com.eveningoutpost.dexdrip.ExternalStatusline" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utils.DisconnectReceiver">
+        <receiver
+            android:name=".utils.DisconnectReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utils.bt.ConnectReceiver">
+        <receiver
+            android:name=".utils.bt.ConnectReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".utils.framework.IncomingCallsReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
@@ -320,12 +332,14 @@
             android:name=".tables.CalibrationDataTable"
             android:label="@string/calibration_data_table" />
 
-        <service android:name=".GcmListenerSvc">
+        <service android:name=".GcmListenerSvc" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyInstanceIDListenerService">
+        <service
+            android:name=".MyInstanceIDListenerService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -352,6 +366,7 @@
             android:exported="true" />
         <service
             android:name=".services.UiBasedCollector"
+            android:exported="true"
             android:label="UiBasedCollector"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -416,6 +431,7 @@
             android:label="@string/install_pebble_snooze_control_app" />
         <activity
             android:name=".UsbConnectedActivity"
+            android:exported="true"
             android:label="@string/title_activity_usb_connected">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -428,6 +444,7 @@
         <activity
             android:name=".NFCFilterX"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="xDrip+ NFC"
             android:launchMode="singleTask">
             <intent-filter>
@@ -476,7 +493,9 @@
             android:label="@string/settings"
             android:theme="@style/OldAppTheme" />
 
-        <receiver android:name=".xDripWidget">
+        <receiver
+            android:name=".xDripWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -543,7 +562,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NSClientReceiver">
+        <receiver
+            android:name=".NSClientReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="info.nightscout.client.NS_BRIDGE" />
             </intent-filter>
@@ -572,12 +593,16 @@
                 <action android:name="com.eveningoutpost.dexdrip.NewCalibration" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".LibreAlarmReceiver">
+        <receiver
+            android:name=".LibreAlarmReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.eveningoutpost.dexdrip.FROM_LIBRE_ALARM" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".NSEmulatorReceiver">
+        <receiver
+            android:name=".NSEmulatorReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.eveningoutpost.dexdrip.NS_EMULATOR" />
                 <action android:name="com.eveningoutpost.dexdrip.OOP2_DECODE_FARM_RESULT" />
@@ -585,7 +610,9 @@
                 <action android:name="com.eveningoutpost.dexdrip.OOP2_BLUETOOTH_ENABLE_RESULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receivers.aidex.AidexReceiver">
+        <receiver
+            android:name=".receivers.aidex.AidexReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.microtechmd.cgms.aidex.action.BgEstimate" />
                 <action android:name="com.microtechmd.cgms.aidex.action.Calibration" />
@@ -595,17 +622,23 @@
                 <action android:name="com.microtechmd.cgms.aidex.action.Notification" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receiver.OTReceiver">
+        <receiver
+            android:name=".receiver.OTReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.eveningoutpost.dexdrip.OT_APP" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".watch.thinjam.io.ThinJamApiReceiver">
+        <receiver
+            android:name=".watch.thinjam.io.ThinJamApiReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.eveningoutpost.dexdrip.THINJAM_API" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".LibreReceiver">
+        <receiver
+            android:name=".LibreReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.librelink.app.ThirdPartyIntegration.GLUCOSE_READING" />
                 <action android:name="com.librelink.app.ThirdPartyIntegration.SENSOR_ACTIVATE" />
@@ -614,7 +647,9 @@
                 <action android:name="com.librelink.app.ThirdPartyIntegration.SENSOR_SCAN" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utilitymodels.BroadcastSnoozeReceiver">
+        <receiver
+            android:name=".utilitymodels.BroadcastSnoozeReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.eveningoutpost.dexdrip.Snooze" />
             </intent-filter>
@@ -626,7 +661,9 @@
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".utilitymodels.CompatibleApps">
+        <receiver
+            android:name=".utilitymodels.CompatibleApps"
+            android:exported="true">
             <intent-filter android:priority="100">
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
 
@@ -642,6 +679,7 @@
 
         <service
             android:name=".services.AlwaysOnDisplayService"
+            android:exported="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -691,6 +729,7 @@
         <activity
             android:name=".utilitymodels.SendFeedBack"
             android:configChanges="orientation|screenSize"
+            android:exported="true"
             android:label="@string/title_activity_send_feed_back"
             android:noHistory="true">
             <intent-filter>
@@ -746,6 +785,7 @@
             android:label="Nightscout xDrip+" />
         <activity
             android:name=".WearVoiceActivity"
+            android:exported="true"
             android:label="Simulation handheld">
             <intent-filter>
                 <action android:name="com.google.android.gm.action.AUTO_SEND" />

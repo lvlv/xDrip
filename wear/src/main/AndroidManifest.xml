@@ -68,6 +68,7 @@
         <service
             android:name=".Home"
             android:allowEmbedded="true"
+            android:exported="true"
             android:label="@string/label_xdrip"
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
@@ -86,6 +87,7 @@
         <service
             android:name=".LargeHome"
             android:allowEmbedded="true"
+            android:exported="true"
             android:label="@string/label_xdrip_large"
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
@@ -104,6 +106,7 @@
         <service
             android:name=".BIGChart"
             android:allowEmbedded="true"
+            android:exported="true"
             android:label="@string/label_xdrip_big_chart"
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
@@ -122,6 +125,7 @@
         <service
             android:name=".CircleWatchface"
             android:allowEmbedded="true"
+            android:exported="true"
             android:label="@string/label_xdrip_circle"
             android:permission="android.permission.BIND_WALLPAPER">
             <meta-data
@@ -137,7 +141,9 @@
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE" />
             </intent-filter>
         </service>
-        <service android:name=".ListenerService">
+        <service
+            android:name=".ListenerService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
 
@@ -203,7 +209,8 @@
             android:name=".services.CustomComplicationProviderService"
             android:icon="@drawable/ic_watch_white"
             android:label="xDrip Complication Provider"
-            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
             </intent-filter>
@@ -223,14 +230,18 @@
             android:name=".ProcessAPKChannelDownload"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".NSEmulatorReceiver">
+        <receiver
+            android:name=".NSEmulatorReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.eveningoutpost.dexdrip.NS_EMULATOR" />
                 <action android:name="com.eveningoutpost.dexdrip.OOP2_DECODE_FARM_RESULT" />
             </intent-filter>
         </receiver>
         <receiver android:name=".services.ComplicationTapBroadcastReceiver" />
-        <receiver android:name=".utils.DisconnectReceiver">
+        <receiver
+            android:name=".utils.DisconnectReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
             </intent-filter>
@@ -243,6 +254,7 @@
 
         <activity
             android:name=".NWPreferences"
+            android:exported="true"
             android:icon="@drawable/ic_icon"
             android:label="@string/app_name"
             android:launchMode="singleTask">
@@ -274,6 +286,7 @@
         </activity>
         <activity
             android:name=".KeypadInputActivity"
+            android:exported="true"
             android:icon="@drawable/ic_icon"
             android:label="Keypad Treatment"
             android:launchMode="singleTask">
@@ -285,6 +298,7 @@
         </activity>
         <activity
             android:name=".QuickSnooze"
+            android:exported="true"
             android:icon="@drawable/ic_icon"
             android:label="@string/snooze_alert"
             android:launchMode="singleTask">
